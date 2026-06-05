@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Psicóloga 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F7F5F2;--surface:#FFF;--surface2:#F0EDE8;--border:#E2DDD6;--border2:#CFC9C0;
+  --text:#1A1714;--text2:#6B655C;--text3:#A09890;
+  --accent:#5C4B8A;--accent-l:#EDE9F7;--accent-m:#9B8EC4;
+  --teal:#1D8A72;--teal-l:#E0F3EE;--coral:#C45030;--coral-l:#FAE9E4;
+  --amber:#A86A10;--amber-l:#FDF0DB;--rose:#B84060;--rose-l:#FAEBF0;
+  --blue:#2860A8;--blue-l:#E4EEFB;--green:#3A7D2C;--green-l:#EAF3DE;
+  --font-d:'DM Serif Display',Georgia,serif;--font-b:'DM Sans',system-ui,sans-serif;
+  --r:10px;--rs:6px;--sh:0 1px 3px rgba(0,0,0,.07),0 4px 12px rgba(0,0,0,.05);--shs:0 1px 2px rgba(0,0,0,.06);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);min-height:100vh}
+/* HEADER */
+.hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;height:56px;position:sticky;top:0;z-index:50;gap:1rem}
+.logo{font-family:var(--font-d);font-size:1.2rem;color:var(--accent);white-space:nowrap}
+.logo span{color:var(--text3);font-style:italic;font-size:.9em}
+.sync-st{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface2);white-space:nowrap}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:background .3s}
+.sync-dot.ok{background:var(--teal)}.sync-dot.saving{background:var(--amber);animation:pulse .8s infinite}.sync-dot.error{background:var(--coral)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hnav{display:flex;gap:4px;background:var(--surface2);border-radius:var(--r);padding:4px;margin-left:auto}
+.hnav-b{font-family:var(--font-b);font-size:13px;font-weight:500;padding:5px 14px;border:none;border-radius:var(--rs);background:transparent;color:var(--text2);cursor:pointer;transition:background .15s,color .15s}
+.hnav-b:hover{background:var(--border);color:var(--text)}.hnav-b.active{background:var(--surface);color:var(--accent);box-shadow:var(--shs)}
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:1.5rem 2rem 4rem}
+.crumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);margin-bottom:1.25rem}
+.crumb a{color:var(--accent);text-decoration:none;cursor:pointer}.crumb a:hover{opacity:.7}.crumb-sep{color:var(--border2)}
+.vhdr{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+.vtitle{font-family:var(--font-d);font-size:1.75rem;color:var(--text);letter-spacing:-.02em;text-transform:capitalize;flex:1}
+.nav-arr{width:34px;height:34px;border:1px solid var(--border2);border-radius:var(--rs);background:var(--surface);cursor:pointer;font-size:18px;color:var(--text2);display:flex;align-items:center;justify-content:center;transition:background .1s}
+.nav-arr:hover{background:var(--surface2);border-color:var(--accent-m)}
+/* YEAR */
+.yr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;box-shadow:var(--shs)}
+.mc:hover{border-color:var(--accent-m);box-shadow:var(--sh);transform:translateY(-2px)}
+.mc-name{font-family:var(--font-d);font-size:1rem;margin-bottom:10px}
+.mini-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.mini-hd{font-size:8px;text-align:center;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;padding-bottom:3px}
+.mini-d{font-size:9px;text-align:center;padding:2px 0;border-radius:3px;color:var(--text2)}
+.mini-d.has{background:var(--accent-l);color:var(--accent);font-weight:500}.mini-d.wk{color:var(--text3)}
+.mc-ft{margin-top:10px;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.mc-ft .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
+/* MONTH */
+.mo-grid{display:flex;flex-direction:column;gap:4px}
+.mo-row{display:grid;grid-template-columns:64px repeat(7,1fr);gap:4px;align-items:stretch}
+.dow-hd{font-size:11px;font-weight:500;text-align:center;padding:6px 0;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.wk-lbl{font-size:11px;font-weight:500;color:var(--accent);cursor:pointer;display:flex;align-items:center;padding:6px 4px;border-radius:var(--rs);transition:background .1s}
+.wk-lbl:hover{background:var(--accent-l)}
+.dc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:6px;min-height:68px;cursor:pointer;transition:border-color .12s}
+.dc:hover{border-color:var(--accent-m)}.dc.today{border-color:var(--accent);border-width:2px}.dc.other{opacity:.28;pointer-events:none}.dc.wkend{background:var(--surface2)}
+.dc-num{font-size:12px;font-weight:500;color:var(--text2);margin-bottom:4px}.dc.today .dc-num{color:var(--accent);font-weight:700}
+.dc-dots{display:flex;flex-wrap:wrap;gap:2px}.dc-dot{width:6px;height:6px;border-radius:50%}
+/* WEEK */
+.wk-ghdr{display:grid;grid-template-columns:52px repeat(7,1fr);gap:4px;margin-bottom:4px}
+.wgh{text-align:center;padding:6px 4px;border-radius:var(--rs);cursor:pointer;transition:background .1s}.wgh:hover{background:var(--accent-l)}
+.wgh-dow{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
+.wgh-num{font-size:18px;font-weight:400;color:var(--text);font-family:var(--font-d);line-height:1.2}
+.wgh-cnt{font-size:10px;color:var(--accent);margin-top:2px}
+.hr-rows{display:flex;flex-direction:column}
+.hr-row{display:grid;grid-template-columns:52px repeat(7,1fr);gap:4px;min-height:50px;border-top:1px solid var(--border)}
+.hr-row:last-child{border-bottom:1px solid var(--border)}
+.hr-lbl{font-size:11px;color:var(--text3);text-align:right;padding:6px 8px 0 0;white-space:nowrap}
+.hr-slot{padding:3px 2px;cursor:pointer;border-radius:var(--rs);transition:background .1s}.hr-slot:hover{background:var(--accent-l)}
+.apt-pill{border-radius:var(--rs);padding:3px 6px;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;border-left:3px solid}
+.apt-pn{font-size:11px;font-weight:500}.apt-pm{font-size:10px;opacity:.8}
+.apt-pdel{font-size:11px;background:none;border:none;cursor:pointer;opacity:.5;padding:0 0 0 4px;transition:opacity .1s}.apt-pdel:hover{opacity:1;color:var(--coral)}
+.add-hint{font-size:11px;color:var(--accent-m);opacity:0;transition:opacity .1s;padding:2px 4px}.hr-slot:hover .add-hint{opacity:1}
+/* DAY */
+.day-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem}
+.stat-c{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;box-shadow:var(--shs)}
+.stat-c .sc-l{font-size:11px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.stat-c .sc-v{font-family:var(--font-d);font-size:1.5rem;color:var(--text)}
+.dhr-rows{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:var(--shs)}
+.dhr-row{display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid var(--border);min-height:56px;transition:background .1s}.dhr-row:last-child{border-bottom:none}.dhr-row:hover{background:#FAFAF8}
+.dhr-lbl{font-size:12px;color:var(--text3);text-align:right;padding:8px 10px 0;border-right:1px solid var(--border);background:var(--surface2);display:flex;align-items:flex-start;justify-content:flex-end}
+.dhr-slot{padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.apt-card{border-radius:var(--rs);padding:6px 10px;display:flex;align-items:center;justify-content:space-between;border-left:3px solid}
+.apt-cp{font-size:13px;font-weight:500}.apt-cm{font-size:11px;opacity:.75;margin-top:1px}
+.apt-cdel{background:none;border:none;cursor:pointer;font-size:14px;opacity:.4;transition:opacity .1s;padding:0 4px}.apt-cdel:hover{opacity:1;color:var(--coral)}
+.add-ch{font-size:12px;color:var(--accent-m);opacity:0;transition:opacity .12s}.dhr-slot:hover .add-ch{opacity:1}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.legend-i{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.leg-dot{width:8px;height:8px;border-radius:50%}
+/* TYPE COLORS */
+.t-individual{background:var(--accent-l);border-color:var(--accent)}.t-individual .apt-pn,.t-individual .apt-cp{color:var(--accent)}
+.t-pareja{background:var(--teal-l);border-color:var(--teal)}.t-pareja .apt-pn,.t-pareja .apt-cp{color:var(--teal)}
+.t-familiar{background:var(--coral-l);border-color:var(--coral)}.t-familiar .apt-pn,.t-familiar .apt-cp{color:var(--coral)}
+.t-grupo{background:var(--amber-l);border-color:var(--amber)}.t-grupo .apt-pn,.t-grupo .apt-cp{color:var(--amber)}
+.t-primera{background:var(--rose-l);border-color:var(--rose)}.t-primera .apt-pn,.t-primera .apt-cp{color:var(--rose)}
+.t-seguimiento{background:var(--blue-l);border-color:var(--blue)}.t-seguimiento .apt-pn,.t-seguimiento .apt-cp{color:var(--blue)}
+/* MODAL */
+.moverlay{position:fixed;inset:0;background:rgba(26,23,20,.45);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
+.moverlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:1.75rem;width:400px;max-width:95vw;box-shadow:0 8px 40px rgba(0,0,0,.18);transform:translateY(12px);transition:transform .2s}
+.moverlay.open .modal{transform:translateY(0)}
+.modal-title{font-family:var(--font-d);font-size:1.2rem;color:var(--text);margin-bottom:1.25rem}
+.fg{margin-bottom:14px}
+.fl{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.fi,.fs,.fta{width:100%;font-family:var(--font-b);font-size:14px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--rs);background:var(--bg);color:var(--text);outline:none;transition:border-color .15s}
+.fi:focus,.fs:focus,.fta:focus{border-color:var(--accent)}.fta{resize:vertical;min-height:60px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.m-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+.btn{font-family:var(--font-b);font-size:13px;font-weight:500;padding:8px 18px;border-radius:var(--rs);cursor:pointer;transition:background .12s,opacity .12s;border:none}
+.btn-sec{background:var(--surface2);color:var(--text2);border:1px solid var(--border2)}.btn-sec:hover{background:var(--border)}
+.btn-pri{background:var(--accent);color:#fff}.btn-pri:hover{opacity:.88}
+.btn-danger{background:var(--coral-l);color:var(--coral);border:1px solid var(--coral)}.btn-danger:hover{background:var(--coral);color:#fff}
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;font-size:13px;padding:10px 20px;border-radius:999px;box-shadow:var(--sh);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:300}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* CLINICS / SETTINGS */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:700px){.settings-grid{grid-template-columns:1fr}}
+.settings-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;box-shadow:var(--shs)}
+.settings-card h3{font-family:var(--font-d);font-size:1.1rem;margin-bottom:1rem;color:var(--text)}
+.clinic-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface2);border-radius:var(--rs);margin-bottom:8px;border:1px solid var(--border)}
+.clinic-name{font-size:13px;font-weight:500;color:var(--text)}
+.clinic-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.clinic-del{background:none;border:none;cursor:pointer;font-size:14px;color:var(--text3);transition:color .1s;padding:4px}.clinic-del:hover{color:var(--coral)}
+.rate-row{display:grid;grid-template-columns:80px 1fr 1fr;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.rate-row:last-child{border-bottom:none}
+.rate-dur{font-size:13px;font-weight:500;color:var(--text)}
+.income-big{font-family:var(--font-d);font-size:2.5rem;color:var(--accent);margin:8px 0}
+.income-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.income-row:last-child{border-bottom:none}
+.income-label{color:var(--text2)}.income-val{font-weight:500;color:var(--text)}
+.income-val.pos{color:var(--teal)}.income-val.neg{color:var(--coral)}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--accent-l);color:var(--accent);font-weight:500}
+.empty-st{text-align:center;padding:2rem;color:var(--text3);font-size:13px}
+/* INCOME DASHBOARD */
+.income-dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem}
+.inc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shs)}
+.inc-card .ic-l{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.inc-card .ic-v{font-family:var(--font-d);font-size:1.8rem;color:var(--text)}
+.inc-card .ic-sub{font-size:12px;color:var(--text3);margin-top:4px}
+.inc-card.accent-card{background:var(--accent-l);border-color:var(--accent-m)}
+.inc-card.accent-card .ic-v{color:var(--accent)}
+.clinic-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 8px;border-radius:999px;margin-right:4px;margin-bottom:4px;font-weight:500}
+@media(max-width:700px){.main{padding:1rem}.hdr{padding:0 1rem}.yr-grid{grid-template-columns:repeat(2,1fr)}.mo-row{grid-template-columns:44px repeat(7,1fr);gap:2px}.wk-ghdr,.hr-row{grid-template-columns:40px repeat(7,1fr);gap:2px}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">Mi Agenda <span>— 2026</span></div>
+  <div class="sync-st"><div class="sync-dot" id="sync-dot"></div><span id="sync-lbl">Local</span></div>
+  <nav class="hnav">
+    <button class="hnav-b" id="btn-year" onclick="setView('year')">Año</button>
+    <button class="hnav-b" id="btn-month" onclick="setView('month')">Mes</button>
+    <button class="hnav-b" id="btn-week" onclick="setView('week')">Semana</button>
+    <button class="hnav-b" id="btn-day" onclick="setView('day')">Día</button>
+    <button class="hnav-b" id="btn-income" onclick="setView('income')">💰 Ingresos</button>
+    <button class="hnav-b" id="btn-settings" onclick="setView('settings')">⚙️ Clínicas</button>
+  </nav>
+</header>
+<main class="main" id="main"></main>
+
+<!-- APT MODAL -->
+<div class="moverlay" id="moverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" id="modal-title">Nueva cita</div>
+    <div class="fg">
+      <label class="fl">Paciente</label>
+      <input class="fi" id="f-patient" type="text" placeholder="Nombre del paciente" autocomplete="off">
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">Tipo de sesión</label>
+        <select class="fs" id="f-type">
+          <option value="individual">Individual</option>
+          <option value="pareja">Pareja</option>
+          <option value="familiar">Familiar</option>
+          <option value="grupo">Grupo</option>
+          <option value="primera">Primera consulta</option>
+          <option value="seguimiento">Seguimiento</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="fl">Clínica</label>
+        <select class="fs" id="f-clinic"></select>
+      </div>
+    </div>
+    <div class="frow3">
+      <div class="fg">
+        <label class="fl">Hora</label>
+        <select class="fs" id="f-hour"></select>
+      </div>
+      <div class="fg">
+        <label class="fl">Duración</label>
+        <select class="fs" id="f-dur" onchange="updateFee()">
+          <option value="30">30 min</option>
+          <option value="60">60 min</option>
+          <option value="90">90 min</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="fl">Tarifa (€)</label>
+        <input class="fi" id="f-fee" type="number" min="0" step="0.5" placeholder="Auto">
+      </div>
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">Estado</label>
+        <select class="fs" id="f-status">
+          <option value="confirmada">Confirmada</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Notas</label>
+      <textarea class="fta" id="f-notes" placeholder="Motivo, observaciones..."></textarea>
+    </div>
+    <div class="m-actions">
+      <button class="btn btn-sec" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-pri" onclick="saveApt()">Guardar cita</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLINIC MODAL -->
+<div class="moverlay" id="clinic-moverlay" onclick="closeClinicModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" id="clinic-modal-title">Nueva clínica</div>
+    <div class="fg">
+      <label class="fl">Nombre de la clínica</label>
+      <input class="fi" id="cf-name" type="text" placeholder="Ej: Centro Salud Mental Norte" autocomplete="off">
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">Salario bruto mensual (€)</label>
+        <input class="fi" id="cf-salary" type="number" min="0" step="50" placeholder="0">
+      </div>
+      <div class="fg">
+        <label class="fl">Color</label>
+        <select class="fs" id="cf-color">
+          <option value="accent">Morado</option>
+          <option value="teal">Verde azulado</option>
+          <option value="coral">Coral</option>
+          <option value="amber">Ámbar</option>
+          <option value="rose">Rosa</option>
+          <option value="blue">Azul</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Dirección (opcional)</label>
+      <input class="fi" id="cf-addr" type="text" placeholder="Calle, ciudad...">
+    </div>
+    <div class="fg" style="background:var(--surface2);border-radius:var(--rs);padding:14px;border:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px">Tarifas por duración</div>
+      <div class="rate-row">
+        <div class="rate-dur">30 min</div>
+        <div class="fg" style="margin:0"><input class="fi" id="cf-rate30" type="number" min="0" step="0.5" placeholder="€ por sesión"></div>
+        <div style="font-size:11px;color:var(--text3);padding-left:6px">sesión de 30 min</div>
+      </div>
+      <div class="rate-row">
+        <div class="rate-dur">60 min</div>
+        <div class="fg" style="margin:0"><input class="fi" id="cf-rate60" type="number" min="0" step="0.5" placeholder="€ por sesión"></div>
+        <div style="font-size:11px;color:var(--text3);padding-left:6px">sesión de 60 min</div>
+      </div>
+      <div class="rate-row">
+        <div class="rate-dur">90 min</div>
+        <div class="fg" style="margin:0"><input class="fi" id="cf-rate90" type="number" min="0" step="0.5" placeholder="€ por sesión"></div>
+        <div style="font-size:11px;color:var(--text3);padding-left:6px">sesión de 90 min</div>
+      </div>
+    </div>
+    <div class="m-actions">
+      <button class="btn btn-sec" onclick="closeClinicModal()">Cancelar</button>
+      <button class="btn btn-pri" onclick="saveClinic()">Guardar clínica</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const HOURS=Array.from({length:12},(_,i)=>i+8);
+const YEAR=2026;
+const TYPE_COLOR={individual:'#5C4B8A',pareja:'#1D8A72',familiar:'#C45030',grupo:'#A86A10',primera:'#B84060',seguimiento:'#2860A8'};
+const COLOR_MAP={accent:{bg:'var(--accent-l)',border:'var(--accent)',text:'var(--accent)'},teal:{bg:'var(--teal-l)',border:'var(--teal)',text:'var(--teal)'},coral:{bg:'var(--coral-l)',border:'var(--coral)',text:'var(--coral)'},amber:{bg:'var(--amber-l)',border:'var(--amber)',text:'var(--amber)'},rose:{bg:'var(--rose-l)',border:'var(--rose)',text:'var(--rose)'},blue:{bg:'var(--blue-l)',border:'var(--blue)',text:'var(--blue)'}};
+
+let state={view:'year',month:0,week:0,day:null};
+let appointments={};
+let clinics=[];
+let rates={30:0,60:0,90:0};
+let pendingSlot=null;
+let pendingClinicIdx=null;
+let saveTimer=null;
+
+// PERSISTENCE
+function saveAll(){try{localStorage.setItem('agenda2026',JSON.stringify({appointments,clinics,rates}));}catch(e){}}
+function loadAll(){try{const d=localStorage.getItem('agenda2026');if(d){const p=JSON.parse(d);appointments=p.appointments||{};clinics=p.clinics||[];rates=p.rates||{30:0,60:0,90:0};}}catch(e){appointments={};clinics=[];rates={30:0,60:0,90:0};}}
+function debounceSave(){clearTimeout(saveTimer);setSyncSt('saving','Guardando…');saveTimer=setTimeout(()=>{saveAll();setSyncSt('ok','Guardado ✓');},800);}
+function setSyncSt(s,l){const d=document.getElementById('sync-dot'),lb=document.getElementById('sync-lbl');if(d)d.className='sync-dot '+s;if(lb)lb.textContent=l;}
+
+// HELPERS
+function aptKey(m,d){return`${YEAR}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+function getApts(m,d){return appointments[aptKey(m,d)]||[];}
+function getDIM(m){return new Date(YEAR,m+1,0).getDate();}
+function getFOW(m){let d=new Date(YEAR,m,1).getDay();return d===0?6:d-1;}
+function getWeeks(m){const days=getDIM(m),first=getFOW(m);let weeks=[],week=[];for(let i=0;i<first;i++)week.push(null);for(let d=1;d<=days;d++){week.push(d);if(week.length===7){weeks.push(week);week=[];}}if(week.length){while(week.length<7)week.push(null);weeks.push(week);}return weeks;}
+function fmtMoney(n){return n.toLocaleString('es-ES',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:2});}
+function getClinicById(id){return clinics.find(c=>c.id===id);}
+function getRateForDur(clinicId,dur){const c=getClinicById(clinicId);if(c&&c.rates&&c.rates[dur])return parseFloat(c.rates[dur]);return rates[dur]||0;}
+function getClinicStyle(clinicId){const c=getClinicById(clinicId);if(!c)return{bg:'var(--surface2)',border:'var(--border2)',text:'var(--text3)'};const cm=COLOR_MAP[c.color||'accent']||COLOR_MAP.accent;return cm;}
+
+// VIEW
+function setView(v,month,week,day){state.view=v;if(month!==undefined)state.month=month;if(week!==undefined)state.week=week;if(day!==undefined)state.day=day;render();}
+function render(){
+  ['year','month','week','day','income','settings'].forEach(v=>{const b=document.getElementById('btn-'+v);if(b)b.classList.toggle('active',state.view===v);});
+  const el=document.getElementById('main');if(!el)return;
+  if(state.view==='year')el.innerHTML=renderYear();
+  else if(state.view==='month')el.innerHTML=renderMonth();
+  else if(state.view==='week')el.innerHTML=renderWeek();
+  else if(state.view==='day')el.innerHTML=renderDay();
+  else if(state.view==='income')el.innerHTML=renderIncome();
+  else if(state.view==='settings')el.innerHTML=renderSettings();
+}
+
+// YEAR
+function renderYear(){
+  let h='<div class="vhdr"><div class="vtitle">2026</div></div><div class="yr-grid">';
+  for(let m=0;m<12;m++){
+    const dim=getDIM(m),fow=getFOW(m);let total=0;for(let d=1;d<=dim;d++)total+=getApts(m,d).length;
+    h+=`<div class="mc" onclick="setView('month',${m})"><div class="mc-name">${MONTHS[m]}</div><div class="mini-cal">`;
+    DAYS.forEach(d=>h+=`<div class="mini-hd">${d[0]}</div>`);
+    for(let i=0;i<fow;i++)h+='<div></div>';
+    for(let d=1;d<=dim;d++){const apts=getApts(m,d),wd=(fow+d-1)%7;h+=`<div class="mini-d${wd>=5?' wk':''}${apts.length>0?' has':''}">${d}</div>`;}
+    h+=`</div><div class="mc-ft">${total>0?`<span class="dot"></span>${total} cita${total>1?'s':''}`:'Sin citas'}</div></div>`;
+  }
+  return h+'</div>';
+}
+
+// MONTH
+function renderMonth(){
+  const weeks=getWeeks(state.month);
+  let h=`<div class="crumb"><a onclick="setView('year')">2026</a><span class="crumb-sep">/</span><span>${MONTHS[state.month]}</span></div>`;
+  h+=`<div class="vhdr"><button class="nav-arr" onclick="setView('month',${(state.month+11)%12})">&#8249;</button><div class="vtitle">${MONTHS[state.month]}</div><button class="nav-arr" onclick="setView('month',${(state.month+1)%12})">&#8250;</button></div>`;
+  h+='<div class="mo-grid"><div class="mo-row"><div></div>';
+  DAYS.forEach(d=>h+=`<div class="dow-hd">${d}</div>`);
+  h+='</div>';
+  weeks.forEach((week,wi)=>{
+    h+=`<div class="mo-row"><div class="wk-lbl" onclick="setView('week',${state.month},${wi})">S${wi+1}</div>`;
+    week.forEach((d,di)=>{
+      if(!d){h+=`<div class="dc other"></div>`;return;}
+      const apts=getApts(state.month,d),wd=(getFOW(state.month)+d-1)%7;
+      h+=`<div class="dc${wd>=5?' wkend':''}" onclick="setView('day',${state.month},${wi},${d})"><div class="dc-num">${d}</div><div class="dc-dots">`;
+      apts.forEach(a=>{h+=`<div class="dc-dot" style="background:${TYPE_COLOR[a.type]||'#5C4B8A'}"></div>`;});
+      h+='</div></div>';
+    });
+    h+='</div>';
+  });
+  return h+'</div>';
+}
+
+// WEEK
+function renderWeek(){
+  const weeks=getWeeks(state.month);
+  if(state.week>=weeks.length)state.week=weeks.length-1;
+  const week=weeks[state.week];
+  const prevW=state.week>0?`setView('week',${state.month},${state.week-1})`:`setView('week',${(state.month+11)%12},99)`;
+  const nextW=state.week<weeks.length-1?`setView('week',${state.month},${state.week+1})`:`setView('week',${(state.month+1)%12},0)`;
+  let h=`<div class="crumb"><a onclick="setView('year')">2026</a><span class="crumb-sep">/</span><a onclick="setView('month',${state.month})">${MONTHS[state.month]}</a><span class="crumb-sep">/</span><span>Semana ${state.week+1}</span></div>`;
+  h+=`<div class="vhdr"><button class="nav-arr" onclick="${prevW}">&#8249;</button><div class="vtitle">${MONTHS[state.month]} — Semana ${state.week+1}</div><button class="nav-arr" onclick="${nextW}">&#8250;</button></div>`;
+  h+='<div class="wk-ghdr"><div></div>';
+  week.forEach((d,i)=>{
+    const apts=d?getApts(state.month,d):[];
+    h+=`<div class="wgh" ${d?`onclick="setView('day',${state.month},${state.week},${d})"`:''}><div class="wgh-dow">${DAYS[i]}</div><div class="wgh-num">${d||''}</div>${d&&apts.length?`<div class="wgh-cnt">${apts.length} cita${apts.length>1?'s':''}</div>`:''}</div>`;
+  });
+  h+='</div><div class="hr-rows">';
+  HOURS.forEach(hr=>{
+    h+=`<div class="hr-row"><div class="hr-lbl">${String(hr).padStart(2,'0')}:00</div>`;
+    week.forEach((d)=>{
+      if(!d){h+='<div></div>';return;}
+      const sa=getApts(state.month,d).filter(a=>a.hour===hr);
+      h+=`<div class="hr-slot" onclick="openModal(${state.month},${d},${hr})">`;
+      sa.forEach(a=>{
+        const cs=getClinicStyle(a.clinic);
+        h+=`<div class="apt-pill t-${a.type}" onclick="event.stopPropagation()"><div><div class="apt-pn">${a.patient}</div><div class="apt-pm">${a.dur}min${a.fee?' · '+fmtMoney(a.fee):''}</div></div><button class="apt-pdel" onclick="event.stopPropagation();deleteApt(${state.month},${d},'${a.id}')">✕</button></div>`;
+      });
+      if(!sa.length)h+=`<span class="add-hint">+ cita</span>`;
+      h+='</div>';
+    });
+    h+='</div>';
+  });
+  return h+'</div>';
+}
+
+// DAY
+function renderDay(){
+  if(!state.day){setView('month',state.month);return'';}
+  const d=state.day,dow=(getFOW(state.month)+d-1)%7;
+  const apts=getApts(state.month,d);
+  const weeks=getWeeks(state.month),allDays=weeks.flat().filter(Boolean);
+  const idx=allDays.indexOf(d);
+  const prevD=idx>0?allDays[idx-1]:null,nextD=idx<allDays.length-1?allDays[idx+1]:null;
+  const pN=prevD?`setView('day',${state.month},${state.week},${prevD})`:`setView('day',${(state.month+11)%12},0,${getDIM((state.month+11)%12)})`;
+  const nN=nextD?`setView('day',${state.month},${state.week},${nextD})`:`setView('day',${(state.month+1)%12},0,1)`;
+  let h=`<div class="crumb"><a onclick="setView('year')">2026</a><span class="crumb-sep">/</span><a onclick="setView('month',${state.month})">${MONTHS[state.month]}</a><span class="crumb-sep">/</span><a onclick="setView('week',${state.month},${state.week})">Sem ${state.week+1}</a><span class="crumb-sep">/</span><span>${d} ${MONTHS[state.month]}</span></div>`;
+  h+=`<div class="vhdr"><button class="nav-arr" onclick="${pN}">&#8249;</button><div class="vtitle">${DAYS[dow]}, ${d} de ${MONTHS[state.month]}</div><button class="nav-arr" onclick="${nN}">&#8250;</button></div>`;
+  const confirmed=apts.filter(a=>a.status!=='cancelada').length;
+  const cancelled=apts.filter(a=>a.status==='cancelada').length;
+  const totalMin=apts.filter(a=>a.status!=='cancelada').reduce((s,a)=>s+parseInt(a.dur),0);
+  const totalFee=apts.filter(a=>a.status!=='cancelada').reduce((s,a)=>s+(parseFloat(a.fee)||0),0);
+  h+=`<div class="day-stats">
+    <div class="stat-c"><div class="sc-l">Confirmadas</div><div class="sc-v">${confirmed}</div></div>
+    <div class="stat-c"><div class="sc-l">Canceladas</div><div class="sc-v">${cancelled}</div></div>
+    <div class="stat-c"><div class="sc-l">Horas totales</div><div class="sc-v">${Math.floor(totalMin/60)}h${totalMin%60>0?' '+totalMin%60+'m':''}</div></div>
+    <div class="stat-c"><div class="sc-l">Ingresos del día</div><div class="sc-v" style="color:var(--teal)">${fmtMoney(totalFee)}</div></div>
+  </div>`;
+  h+='<div class="legend">';
+  Object.entries(TYPE_COLOR).forEach(([t,c])=>h+=`<div class="legend-i"><div class="leg-dot" style="background:${c}"></div>${t}</div>`);
+  h+='</div><div class="dhr-rows">';
+  HOURS.forEach(hr=>{
+    const sa=apts.filter(a=>a.hour===hr);
+    h+=`<div class="dhr-row"><div class="dhr-lbl">${String(hr).padStart(2,'0')}:00</div><div class="dhr-slot" onclick="openModal(${state.month},${d},${hr})">`;
+    sa.forEach(a=>{
+      const c=getClinicById(a.clinic);
+      const cs=getClinicStyle(a.clinic);
+      h+=`<div class="apt-card t-${a.type}" style="${a.status==='cancelada'?'opacity:.5':''}" onclick="event.stopPropagation()">
+        <div><div class="apt-cp">${a.patient}</div>
+        <div class="apt-cm">${a.type} · ${a.dur}min${a.fee?' · '+fmtMoney(a.fee):''}${c?' · <span style="color:'+cs.text+'">'+c.name+'</span>':''}${a.status!=='confirmada'?' · '+a.status:''}${a.notes?' · '+a.notes.substring(0,40):''}</div></div>
+        <button class="apt-cdel" onclick="event.stopPropagation();deleteApt(${state.month},${d},'${a.id}')">✕</button></div>`;
+    });
+    if(!sa.length)h+=`<span class="add-ch">+ añadir cita</span>`;
+    h+='</div></div>';
+  });
+  return h+'</div>';
+}
+
+// INCOME VIEW
+function renderIncome(){
+  let h=`<div class="vhdr"><div class="vtitle">Ingresos estimados</div></div>`;
+
+  // Monthly income per clinic from appointments
+  let monthlyByClinic={};
+  let monthlyTotal=0;
+  for(let m=0;m<12;m++){
+    monthlyByClinic[m]={};
+    let mTotal=0;
+    for(let d=1;d<=getDIM(m);d++){
+      getApts(m,d).filter(a=>a.status!=='cancelada').forEach(a=>{
+        const fee=parseFloat(a.fee)||0;
+        if(!monthlyByClinic[m][a.clinic])monthlyByClinic[m][a.clinic]=0;
+        monthlyByClinic[m][a.clinic]+=fee;
+        mTotal+=fee;
+      });
+    }
+    if(m===state.month)monthlyTotal=mTotal;
+  }
+
+  // Total salary from clinics
+  const totalSalary=clinics.reduce((s,c)=>s+(parseFloat(c.salary)||0),0);
+  // Annual projection from apts
+  let annualApts=0;
+  for(let m=0;m<12;m++)for(let d=1;d<=getDIM(m);d++)getApts(m,d).filter(a=>a.status!=='cancelada').forEach(a=>annualApts+=(parseFloat(a.fee)||0));
+
+  h+=`<div class="income-dashboard">
+    <div class="inc-card accent-card">
+      <div class="ic-l">Salario fijo mensual total</div>
+      <div class="ic-v">${fmtMoney(totalSalary)}</div>
+      <div class="ic-sub">${clinics.length} clínica${clinics.length!==1?'s':''} registradas</div>
+    </div>
+    <div class="inc-card">
+      <div class="ic-l">Ingresos por citas — ${MONTHS[state.month]}</div>
+      <div class="ic-v" style="color:var(--teal)">${fmtMoney(monthlyTotal)}</div>
+      <div class="ic-sub">mes actual según agenda</div>
+    </div>
+    <div class="inc-card">
+      <div class="ic-l">Total estimado — ${MONTHS[state.month]}</div>
+      <div class="ic-v" style="color:var(--accent)">${fmtMoney(totalSalary+monthlyTotal)}</div>
+      <div class="ic-sub">fijo + citas del mes</div>
+    </div>
+    <div class="inc-card">
+      <div class="ic-l">Total acumulado 2026</div>
+      <div class="ic-v">${fmtMoney(annualApts)}</div>
+      <div class="ic-sub">solo ingresos por citas</div>
+    </div>
+  </div>`;
+
+  // Month selector
+  h+=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center">
+    <span style="font-size:13px;color:var(--text2);margin-right:4px">Ver mes:</span>`;
+  MONTHS.forEach((mn,i)=>h+=`<button class="btn ${i===state.month?'btn-pri':'btn-sec'}" style="padding:5px 12px;font-size:12px" onclick="state.month=${i};setView('income')">${mn.substring(0,3)}</button>`);
+  h+='</div>';
+
+  // Per-clinic breakdown
+  h+=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem">`;
+  if(clinics.length===0){
+    h+=`<div class="settings-card"><div class="empty-st">Añade clínicas en ⚙️ Clínicas para ver el desglose</div></div>`;
+  } else {
+    clinics.forEach(c=>{
+      const cs=COLOR_MAP[c.color||'accent']||COLOR_MAP.accent;
+      const mInc=monthlyByClinic[state.month][c.id]||0;
+      const salary=parseFloat(c.salary)||0;
+      let aptCount=0;
+      for(let d=1;d<=getDIM(state.month);d++)aptCount+=getApts(state.month,d).filter(a=>a.clinic===c.id&&a.status!=='cancelada').length;
+      h+=`<div class="settings-card" style="border-left:4px solid ${cs.border}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-family:var(--font-d);font-size:1.1rem">${c.name}</div>
+          <span class="tag" style="background:${cs.bg};color:${cs.text}">${c.color||'accent'}</span>
+        </div>
+        <div class="income-row"><span class="income-label">Salario fijo bruto</span><span class="income-val pos">${fmtMoney(salary)}/mes</span></div>
+        <div class="income-row"><span class="income-label">Citas en ${MONTHS[state.month].toLowerCase()}</span><span class="income-val">${aptCount} cita${aptCount!==1?'s':''}</span></div>
+        <div class="income-row"><span class="income-label">Ingresos por citas</span><span class="income-val pos">${fmtMoney(mInc)}</span></div>
+        <div class="income-row" style="font-weight:600"><span class="income-label">Total estimado</span><span class="income-val pos" style="font-size:1.1rem;font-family:var(--font-d)">${fmtMoney(salary+mInc)}</span></div>
+        <div style="margin-top:12px;font-size:11px;color:var(--text3)">Tarifas: 30min=${fmtMoney(c.rates&&c.rates[30]||0)} · 60min=${fmtMoney(c.rates&&c.rates[60]||0)} · 90min=${fmtMoney(c.rates&&c.rates[90]||0)}</div>
+      </div>`;
+    });
+  }
+
+  // Monthly breakdown table
+  h+=`<div class="settings-card" style="grid-column:1/-1">
+    <h3 style="margin-bottom:1rem">Resumen anual por mes</h3>`;
+  h+=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
+    <thead><tr style="border-bottom:2px solid var(--border)">
+      <th style="text-align:left;padding:8px 6px;color:var(--text3);font-weight:500">Mes</th>
+      <th style="text-align:right;padding:8px 6px;color:var(--text3);font-weight:500">Citas</th>
+      <th style="text-align:right;padding:8px 6px;color:var(--text3);font-weight:500">Ingresos citas</th>
+      <th style="text-align:right;padding:8px 6px;color:var(--text3);font-weight:500">Salario fijo</th>
+      <th style="text-align:right;padding:8px 6px;color:var(--text3);font-weight:500">Total estimado</th>
+    </tr></thead><tbody>`;
+  let grandTotal=0,grandApts=0;
+  for(let m=0;m<12;m++){
+    let mApts=0,mInc=0;
+    for(let d=1;d<=getDIM(m);d++){
+      const da=getApts(m,d).filter(a=>a.status!=='cancelada');
+      mApts+=da.length;
+      da.forEach(a=>mInc+=(parseFloat(a.fee)||0));
+    }
+    const mTotal=totalSalary+mInc;
+    grandTotal+=mTotal;grandApts+=mApts;
+    h+=`<tr style="border-bottom:1px solid var(--border);${m===state.month?'background:var(--accent-l)':''}">
+      <td style="padding:8px 6px;font-weight:${m===state.month?500:400}">${MONTHS[m]}</td>
+      <td style="text-align:right;padding:8px 6px">${mApts}</td>
+      <td style="text-align:right;padding:8px 6px;color:var(--teal)">${fmtMoney(mInc)}</td>
+      <td style="text-align:right;padding:8px 6px;color:var(--text2)">${fmtMoney(totalSalary)}</td>
+      <td style="text-align:right;padding:8px 6px;font-weight:500;color:var(--accent)">${fmtMoney(mTotal)}</td>
+    </tr>`;
+  }
+  h+=`<tr style="border-top:2px solid var(--border);font-weight:600">
+    <td style="padding:8px 6px">Total 2026</td>
+    <td style="text-align:right;padding:8px 6px">${grandApts}</td>
+    <td style="text-align:right;padding:8px 6px;color:var(--teal)">—</td>
+    <td style="text-align:right;padding:8px 6px">—</td>
+    <td style="text-align:right;padding:8px 6px;color:var(--accent);font-family:var(--font-d);font-size:1.1rem">${fmtMoney(grandTotal)}</td>
+  </tr></tbody></table></div></div>`;
+
+  return h+'</div>';
+}
+
+// SETTINGS VIEW
+function renderSettings(){
+  let h=`<div class="vhdr"><div class="vtitle">Clínicas y tarifas</div><button class="btn btn-pri" onclick="openClinicModal()">+ Nueva clínica</button></div>`;
+  h+='<div class="settings-grid">';
+
+  // Clinics list
+  h+=`<div class="settings-card"><h3>Mis clínicas</h3>`;
+  if(clinics.length===0){
+    h+=`<div class="empty-st">Aún no has añadido ninguna clínica.<br>Pulsa "+ Nueva clínica" para empezar.</div>`;
+  } else {
+    clinics.forEach((c,i)=>{
+      const cs=COLOR_MAP[c.color||'accent']||COLOR_MAP.accent;
+      h+=`<div class="clinic-item" style="border-left:4px solid ${cs.border}">
+        <div>
+          <div class="clinic-name">${c.name}</div>
+          <div class="clinic-meta">Salario: ${fmtMoney(parseFloat(c.salary)||0)}/mes · Tarifas: 30=${fmtMoney(c.rates&&c.rates[30]||0)} / 60=${fmtMoney(c.rates&&c.rates[60]||0)} / 90=${fmtMoney(c.rates&&c.rates[90]||0)}${c.address?' · '+c.address:''}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="clinic-del" onclick="editClinic(${i})" title="Editar">✏️</button>
+          <button class="clinic-del" onclick="deleteClinic(${i})" title="Eliminar">🗑️</button>
+        </div>
+      </div>`;
+    });
+  }
+  h+='</div>';
+
+  // Global default rates
+  h+=`<div class="settings-card">
+    <h3>Tarifas globales por defecto</h3>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:1rem">Se usan cuando una cita no tiene clínica asignada o la clínica no tiene tarifa definida.</p>
+    <div class="rate-row">
+      <div class="rate-dur">30 min</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input class="fi" style="width:100px" type="number" min="0" step="0.5" value="${rates[30]||''}" placeholder="0 €" onchange="rates[30]=parseFloat(this.value)||0;debounceSave()">
+        <span style="font-size:12px;color:var(--text3)">€ por sesión</span>
+      </div>
+    </div>
+    <div class="rate-row">
+      <div class="rate-dur">60 min</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input class="fi" style="width:100px" type="number" min="0" step="0.5" value="${rates[60]||''}" placeholder="0 €" onchange="rates[60]=parseFloat(this.value)||0;debounceSave()">
+        <span style="font-size:12px;color:var(--text3)">€ por sesión</span>
+      </div>
+    </div>
+    <div class="rate-row">
+      <div class="rate-dur">90 min</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input class="fi" style="width:100px" type="number" min="0" step="0.5" value="${rates[90]||''}" placeholder="0 €" onchange="rates[90]=parseFloat(this.value)||0;debounceSave()">
+        <span style="font-size:12px;color:var(--text3)">€ por sesión</span>
+      </div>
+    </div>
+  </div>`;
+
+  h+='</div>';
+  return h;
+}
+
+// APT MODAL
+function openModal(month,day,hour){
+  pendingSlot={month,day,hour};
+  document.getElementById('modal-title').textContent=`Cita — ${day} de ${MONTHS[month]}, ${String(hour).padStart(2,'0')}:00`;
+  document.getElementById('f-patient').value='';
+  document.getElementById('f-notes').value='';
+  document.getElementById('f-type').value='individual';
+  document.getElementById('f-status').value='confirmada';
+  document.getElementById('f-dur').value='60';
+  document.getElementById('f-fee').value='';
+  // Clinics
+  const csel=document.getElementById('f-clinic');
+  csel.innerHTML='<option value="">Sin clínica asignada</option>';
+  clinics.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;csel.appendChild(o);});
+  // Hours
+  const hsel=document.getElementById('f-hour');hsel.innerHTML='';
+  HOURS.forEach(h=>{const o=document.createElement('option');o.value=h;o.textContent=String(h).padStart(2,'0')+':00';if(h===hour)o.selected=true;hsel.appendChild(o);});
+  updateFee();
+  document.getElementById('moverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('f-patient').focus(),200);
+}
+
+function updateFee(){
+  const clinicId=document.getElementById('f-clinic')?.value;
+  const dur=parseInt(document.getElementById('f-dur')?.value||60);
+  const feeInput=document.getElementById('f-fee');
+  if(!feeInput)return;
+  const r=getRateForDur(clinicId,dur);
+  if(r>0)feeInput.value=r;
+}
+
+function closeModal(e){
+  if(e&&e.target!==document.getElementById('moverlay'))return;
+  document.getElementById('moverlay').classList.remove('open');pendingSlot=null;
+}
+
+function saveApt(){
+  if(!pendingSlot)return;
+  const patient=document.getElementById('f-patient').value.trim();
+  if(!patient){document.getElementById('f-patient').focus();return;}
+  const hour=parseInt(document.getElementById('f-hour').value);
+  const type=document.getElementById('f-type').value;
+  const clinic=document.getElementById('f-clinic').value;
+  const dur=document.getElementById('f-dur').value;
+  const fee=parseFloat(document.getElementById('f-fee').value)||getRateForDur(clinic,parseInt(dur));
+  const status=document.getElementById('f-status').value;
+  const notes=document.getElementById('f-notes').value.trim();
+  const{month,day}=pendingSlot;
+  const key=aptKey(month,day);
+  if(!appointments[key])appointments[key]=[];
+  appointments[key].push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),patient,type,clinic,hour,dur,fee,status,notes});
+  document.getElementById('moverlay').classList.remove('open');pendingSlot=null;
+  showToast('Cita guardada ✓');debounceSave();render();
+}
+
+function deleteApt(month,day,id){
+  const key=aptKey(month,day);
+  if(appointments[key])appointments[key]=appointments[key].filter(a=>a.id!==id);
+  showToast('Cita eliminada');debounceSave();render();
+}
+
+// CLINIC MODAL
+function openClinicModal(idx){
+  pendingClinicIdx=idx!==undefined?idx:null;
+  const c=idx!==undefined?clinics[idx]:null;
+  document.getElementById('clinic-modal-title').textContent=c?'Editar clínica':'Nueva clínica';
+  document.getElementById('cf-name').value=c?c.name:'';
+  document.getElementById('cf-salary').value=c?c.salary:'';
+  document.getElementById('cf-addr').value=c?c.address||'':'';
+  document.getElementById('cf-color').value=c?c.color||'accent':'accent';
+  document.getElementById('cf-rate30').value=c&&c.rates?c.rates[30]||'':'';
+  document.getElementById('cf-rate60').value=c&&c.rates?c.rates[60]||'':'';
+  document.getElementById('cf-rate90').value=c&&c.rates?c.rates[90]||'':'';
+  document.getElementById('clinic-moverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('cf-name').focus(),200);
+}
+
+function closeClinicModal(e){
+  if(e&&e.target!==document.getElementById('clinic-moverlay'))return;
+  document.getElementById('clinic-moverlay').classList.remove('open');pendingClinicIdx=null;
+}
+
+function saveClinic(){
+  const name=document.getElementById('cf-name').value.trim();
+  if(!name){document.getElementById('cf-name').focus();return;}
+  const clinic={
+    id:pendingClinicIdx!==null&&clinics[pendingClinicIdx]?clinics[pendingClinicIdx].id:Date.now().toString(36),
+    name,
+    salary:parseFloat(document.getElementById('cf-salary').value)||0,
+    address:document.getElementById('cf-addr').value.trim(),
+    color:document.getElementById('cf-color').value,
+    rates:{
+      30:parseFloat(document.getElementById('cf-rate30').value)||0,
+      60:parseFloat(document.getElementById('cf-rate60').value)||0,
+      90:parseFloat(document.getElementById('cf-rate90').value)||0
+    }
+  };
+  if(pendingClinicIdx!==null&&clinics[pendingClinicIdx])clinics[pendingClinicIdx]=clinic;
+  else clinics.push(clinic);
+  document.getElementById('clinic-moverlay').classList.remove('open');pendingClinicIdx=null;
+  showToast('Clínica guardada ✓');debounceSave();render();
+}
+
+function editClinic(i){openClinicModal(i);}
+function deleteClinic(i){if(!confirm('¿Eliminar esta clínica?'))return;clinics.splice(i,1);debounceSave();render();}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('moverlay').classList.remove('open');
+    document.getElementById('clinic-moverlay').classList.remove('open');
+    pendingSlot=null;pendingClinicIdx=null;
+  }
+});
+
+// Also update fee when clinic changes
+document.getElementById('f-clinic')?.addEventListener('change',updateFee);
+
+loadAll();
+setSyncSt('ok','Guardado local');
+setView('year');
+</script>
+</body>
+</html>
