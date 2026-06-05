@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda Psicóloga 2026</title>
+<title>PSICOAGENDA</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -289,7 +289,8 @@ const HOURS=Array.from({length:12},(_,i)=>i+8);
 const YEAR=2026;
 const TYPE_COLOR={individual:'#5C4B8A',pareja:'#1D8A72',familiar:'#C45030',grupo:'#A86A10',primera:'#B84060',seguimiento:'#2860A8'};
 const COLOR_MAP={accent:{bg:'var(--accent-l)',border:'var(--accent)',text:'var(--accent)'},teal:{bg:'var(--teal-l)',border:'var(--teal)',text:'var(--teal)'},coral:{bg:'var(--coral-l)',border:'var(--coral)',text:'var(--coral)'},amber:{bg:'var(--amber-l)',border:'var(--amber)',text:'var(--amber)'},rose:{bg:'var(--rose-l)',border:'var(--rose)',text:'var(--rose)'},blue:{bg:'var(--blue-l)',border:'var(--blue)',text:'var(--blue)'}};
-
+const GOOGLE_CLIENT_ID = '215765907419-6th9kvmvjnf0gd28ccmd07qeo47fc042.apps.googleusercontent.com';
+  
 let state={view:'year',month:0,week:0,day:null};
 let appointments={};
 let clinics=[];
