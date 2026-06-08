@@ -610,7 +610,7 @@ let saveTimer=null;
 
 // ═══ AUTH ═══
 function startAuth_impl(){
-  if(GOOGLE_CLIENT_ID==='YOUR_GOOGLE_CLIENT_ID_HERE'){showToast('Configura tu Google Client ID primero','error');startDemo();return;}
+  if(GOOGLE_CLIENT_ID==='215765907419-6th9kvmvjnf0gd28ccmd07qeo47fc042.apps.googleusercontent.com'){showToast('Configura tu Google Client ID primero','error');startDemo();return;}
   const p=new URLSearchParams({client_id:GOOGLE_CLIENT_ID,redirect_uri:loc0(),response_type:'token',scope:'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',prompt:'consent'});
   window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+p;
 }
